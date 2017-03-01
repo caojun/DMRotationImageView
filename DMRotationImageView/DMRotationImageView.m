@@ -285,7 +285,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             if ([self.delegate respondsToSelector:@selector(rotationImageView:didDrawImage:)])
             {
-                UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+                UIImage *image = [self curDrawImage];
                 [self.delegate rotationImageView:self didDrawImage:image];
             }
         });

@@ -52,7 +52,7 @@
 - (void)rotationImageView:(nonnull DMRotationImageView *)view
              didDrawImage:(nonnull UIImage *)image
 {
-    self.m_imageView.image = [view curDrawImage];
+    self.m_imageView.image = image;
 }
 
 - (void)didReceiveMemoryWarning {
