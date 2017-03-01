@@ -31,9 +31,12 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol DMRotationImageViewDelegate <NSObject>
 
 @optional
-- (void)rotationImageViewBegin:(DMRotationImageView *)view;
-- (void)rotationImageViewMove:(DMRotationImageView *)view;
-- (void)rotationImageViewEnd:(DMRotationImageView *)view;
+- (void)rotationImageViewBegin:(nonnull DMRotationImageView *)view;
+- (void)rotationImageViewMove:(nonnull DMRotationImageView *)view;
+- (void)rotationImageViewEnd:(nonnull DMRotationImageView *)view;
+
+- (void)rotationImageView:(nonnull DMRotationImageView *)view
+             didDrawImage:(nonnull UIImage *)image;
 
 @end
 

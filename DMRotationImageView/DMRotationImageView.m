@@ -281,6 +281,14 @@
         CGContextRef context = UIGraphicsGetCurrentContext();
 
         [self drawImage:context rect:rect];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ([self.delegate respondsToSelector:@selector(rotationImageView:didDrawImage:)])
+            {
+                UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+                [self.delegate rotationImageView:self didDrawImage:image];
+            }
+        });
     }
 }
 
