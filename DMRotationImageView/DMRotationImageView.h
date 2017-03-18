@@ -45,6 +45,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, weak) IBOutlet id<DMRotationImageViewDelegate> delegate;
 
 @property (nullable, nonatomic, strong) IBInspectable UIImage *image;
+/// 当前角度, 0 - 360
+@property (nonatomic, assign) IBInspectable CGFloat curAngle;
 
 + (instancetype)rotationImageViewWithImage:(nullable UIImage *)image;
 - (instancetype)initWithImage:(nullable UIImage *)image;

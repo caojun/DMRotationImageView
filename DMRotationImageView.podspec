@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "DMRotationImageView"
-  s.version      = "1.2.0"
+  s.version      = "1.2.1"
   s.summary      = "可旋转的ImageView"
 
   s.description  = <<-DESC

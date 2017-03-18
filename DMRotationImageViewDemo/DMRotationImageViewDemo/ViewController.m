@@ -12,6 +12,7 @@
 @interface ViewController () <DMRotationImageViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *m_imageView;
+@property (weak, nonatomic) IBOutlet DMRotationImageView *m_rotationView;
 
 @end
 
@@ -27,7 +28,9 @@
 {
     [super touchesBegan:touches withEvent:event];
     
-    
+    NSLog(@"befor angle = %@", @(self.m_rotationView.curAngle));
+    self.m_rotationView.curAngle += 30;
+    NSLog(@"after angle = %@", @(self.m_rotationView.curAngle));
 }
 
 

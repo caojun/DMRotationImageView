@@ -25,14 +25,21 @@
 #import "DMRotationImageView.h"
 
 
+typedef NS_ENUM(NSUInteger, DMRotationDrawType) {
+    /// 旋转
+    DMRotationDrawTypeRotate,
+    /// 直接更新角度
+    DMRotationDrawTypeUpdateAngle,
+};
+
 @interface DMRotationImageView ()
 
 @property (nonatomic, assign) CGFloat beginAngle;
 @property (nullable, nonatomic, strong) UIImage *sourceImage;
-@property (nonatomic, assign) CGFloat curAngle;
 @property (nonatomic, assign) CGFloat curAngleBak;
 
 @property (nonatomic, assign, getter=isPenDown) BOOL penDown;
+@property (nonatomic, assign) DMRotationDrawType drawType;
 
 @end
 
@@ -196,7 +203,8 @@
     CGPoint point = [th locationInView:self];
     
     CGFloat angle = [self angleWithPoint:point];
-    self.curAngle = self.curAngleBak + angle - self.beginAngle;
+    _curAngle = self.curAngleBak + angle - self.beginAngle;
+    self.drawType = DMRotationDrawTypeRotate;
 
     [self setNeedsDisplay];
 }
@@ -282,13 +290,16 @@
 
         [self drawImage:context rect:rect];
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if ([self.delegate respondsToSelector:@selector(rotationImageView:didDrawImage:)])
-            {
-                UIImage *image = [self curDrawImage];
-                [self.delegate rotationImageView:self didDrawImage:image];
-            }
-        });
+        if (DMRotationDrawTypeRotate == self.drawType)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if ([self.delegate respondsToSelector:@selector(rotationImageView:didDrawImage:)])
+                {
+                    UIImage *image = [self curDrawImage];
+                    [self.delegate rotationImageView:self didDrawImage:image];
+                }
+            });
+        }
     }
 }
 
@@ -296,7 +307,7 @@
 {
     CGContextTranslateCTM(context, rect.size.width / 2, rect.size.height / 2);
     CGContextScaleCTM(context, 1.0, -1.0);
-    CGContextRotateCTM(context, self.curAngle);
+    CGContextRotateCTM(context, _curAngle);
     
     rect.origin.x = -rect.size.width / 2;
     rect.origin.y = -rect.size.height / 2;
@@ -317,6 +328,12 @@
     return image;
 }
 
+- (void)setCurAngle:(CGFloat)curAngle
+{
+    _curAngle = curAngle;
+    self.drawType = DMRotationDrawTypeUpdateAngle;
+    [self setNeedsDisplay];
+}
 
 @end
 
